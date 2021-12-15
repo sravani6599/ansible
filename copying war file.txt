@@ -1,0 +1,11 @@
+---
+  - name: Deploywarfile
+    hosts: 35.87.8.27
+    tasks:
+      - name: Copy war file
+        become: true
+        become_user: root
+        copy:
+          src: /var/lib/jenkins/workspace/javasrcproject/target/demo.war
+          dest: /home/ec2-user/tar/apache-tomcat-8.5.73/webapps/
+          remote_src: no
