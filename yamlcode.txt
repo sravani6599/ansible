@@ -1,0 +1,28 @@
+---
+  - name: Installing Java
+    hosts: 54.212.241.252
+           34.218.75.246
+    become: yes
+    tasks:
+      - name: updating repos
+        yum:
+          name: "*"
+          state: latest
+      - name: Installing required java
+        yum:
+          name: java-1.8.0-openjdk
+          state: present
+      - name: Downloading tomcat
+        get_url:
+          url: "https://dlcdn.apache.org/tomcat/tomcat-8/v8.5.73/bin/apache-tomcat-8.5.73.tar.gz"
+          dest: /usr/local
+      - name: Extracting tomcat
+        unarchive:
+          src: "/usr/local/apache-tomcat-8.5.73.tar.gz"
+          dest: /usr/local
+          remote_src: yes
+      - name: Renaming tomcat home
+        command: mv /usr/local/apache-tomcat-8.5.73 /usr/local/tomcat
+      - name: Start tomcat
+        shell: nohup /usr/local/tomcat/bin/startup.sh &
+~
